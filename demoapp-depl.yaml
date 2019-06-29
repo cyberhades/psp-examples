@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: demoappv1
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: demoapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: demoapp
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+      - image: tuxotron/demoapp:v1
+        imagePullPolicy: Always
+        name: demoappv1
